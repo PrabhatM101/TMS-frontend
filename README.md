@@ -21,11 +21,13 @@ Clone the repository:
 ```bash
 git clone https://github.com/PrabhatM101/TMS-frontend
 cd TMSFrontend
-
+```
 Install Dependencies:
 
+```bash
 npm install
-
+```
 Run Project:
-
+```bash
 npm start
+```
