@@ -1,0 +1,102 @@
+<div class="h-100 w-100 d-flex align-items-center justify-content-center overflow-auto">
+  <div class="auth-container">
+    <h2 class="auth-title">Sign Up</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="submit()" novalidate>
+      <div class="form-group">
+        <label for="name" class="form-label">Full Name</label>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+            placeholder="Enter your full name"
+            [ngClass]="{
+              'is-valid': f.name.valid && f.name.touched,
+              'is-invalid': f.name.invalid && f.name.touched
+            }"
+          />
+          <i class="fas fa-user input-icon"></i>
+          @if (f.name.touched && f.name.invalid) {
+            <div class="invalid-feedback">
+              @if (f.name.errors?.['required']) {
+                <div>Name is required.</div>
+              }
+              @if (f.name.errors?.['minlength']) {
+                <div>Name must be at least 2 characters.</div>
+              }
+              @if (f.name.errors?.['maxlength']) {
+                <div>Name cannot exceed 60 characters.</div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email"
+            [ngClass]="{
+              'is-valid': f.email.valid && f.email.touched,
+              'is-invalid': f.email.invalid && f.email.touched
+            }"
+          />
+          <i class="fas fa-envelope input-icon"></i>
+          @if (f.email.touched && f.email.invalid) {
+            <div class="invalid-feedback">
+              @if (f.email.errors?.['required']) {
+                <div>Email is required.</div>
+              }
+              @if (f.email.errors?.['pattern']) {
+                <div>Please enter a valid email address.</div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-wrapper">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            formControlName="password"
+            placeholder="Create a password"
+            [ngClass]="{
+              'is-valid': f.password.valid && f.password.touched,
+              'is-invalid': f.password.invalid && f.password.touched
+            }"
+          />
+          <i class="fas fa-lock input-icon"></i>
+          @if (f.password.touched && f.password.invalid) {
+            <div class="invalid-feedback">
+              @if (f.password.errors?.['required']) {
+                <div>Password is required.</div>
+              }
+              @if (f.password.errors?.['minlength']) {
+                <div>Password must be at least 8 characters.</div>
+              }
+              @if (f.password.errors?.['maxlength']) {
+                <div>Password cannot exceed 16 characters.</div>
+              }
+            </div>
+          }
+          <div class="form-text">Use a mix of letters, numbers, and symbols.</div>
+        </div>
+      </div>
+      <button type="submit" class="btn-auth mt-3" [disabled]="isLoading">
+          {{ isLoading ? 'Signing Up...' : 'Sign Up' }}
+      </button>
+      <div class="text-center mt-2">
+    <span class="form-text">Already have an account?</span>
+    <a routerLink="/auth/login" class="ms-1 fw-semibold text-primary">Log In</a>
+  </div>
+    </form>
+  </div>
+</div>

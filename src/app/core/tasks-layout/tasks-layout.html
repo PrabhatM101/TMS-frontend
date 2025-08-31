@@ -1,0 +1,12 @@
+<div class="layout h-100 w-100 d-flex">
+  <app-sidebar></app-sidebar>
+
+  <div class="main flex-1 d-flex flex-column">
+    <app-header></app-header>
+    <div class="content flex-1 p-15 overflow-hidden">
+      <div class="h-100 w-100 bg-white main-radius">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

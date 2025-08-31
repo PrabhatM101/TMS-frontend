@@ -1,0 +1,39 @@
+<header class="header">
+  <div class="header-right ms-auto">
+    @let user = user$ |async;
+    @if(user?._id){
+    <div class="profile" ngbDropdown>
+  <div
+    class="avatar cursor-pointer"
+    ngbDropdownToggle
+    [style.background-color]="user?.name | nameColor:0.2"
+    [style.color]="'#333'"
+  >
+    {{ user?.name | getInitials }}
+  </div>
+
+  <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end profile-dropdown shadow-lg">
+    <div class="px-3 py-2 d-flex align-items-center">
+      <div
+        class="avatar-lg me-3 d-flex align-items-center justify-content-center"
+        [style.background-color]="user?.name | nameColor:0.2"
+      >
+        {{ user?.name | getInitials }}
+      </div>
+      <div>
+        <div class="fw-semibold">{{ user?.name }}</div>
+        <div class="text-muted small">{{ user?.email }}</div>
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+
+    <button class="dropdown-item text-danger fw-semibold" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-2"></i> Logout
+    </button>
+  </div>
+</div>
+
+    }
+  </div>
+</header>

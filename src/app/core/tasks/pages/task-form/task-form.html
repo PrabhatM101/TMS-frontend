@@ -1,0 +1,124 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ task ? 'Edit Task' : 'Create Task' }}</h5>
+  <div  class="btn-effect ms-auto"  (click)="modal.dismiss('cancel')">
+    <i class="fa-solid fa-xmark"></i>
+  </div>
+</div>
+<div class="modal-body">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="mb-4 position-relative">
+      <label for="title" class="form-label fw-medium">Title <span class="text-danger">*</span></label>
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        formControlName="title"
+        placeholder="Enter task title"
+        [ngClass]="{'is-invalid': taskForm.get('title')?.invalid && (taskForm.get('title')?.touched || submitted)}"
+      />
+      @if (taskForm.get('title')?.invalid && (taskForm.get('title')?.touched || submitted)) {
+      <div class="invalid-feedback">
+        @if (taskForm.get('title')?.errors?.['required']) {
+        <div>Title is required.</div>
+        }
+        @if (taskForm.get('title')?.errors?.['maxlength']) {
+        <div>Title cannot exceed 120 characters.</div>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="mb-4 position-relative">
+      <label for="description" class="form-label fw-medium">Description</label>
+      <textarea
+        id="description"
+        class="form-control"
+        formControlName="description"
+        placeholder="Enter task description"
+        rows="4"
+        [ngClass]="{'is-invalid': taskForm.get('description')?.invalid && (taskForm.get('description')?.touched || submitted)}"
+      ></textarea>
+      @if (taskForm.get('description')?.invalid && (taskForm.get('description')?.touched || submitted)) {
+      <div class="invalid-feedback">
+        @if (taskForm.get('description')?.errors?.['maxlength']) {
+        <div>Description cannot exceed 500 characters.</div>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="mb-4 position-relative">
+      <label for="status" class="form-label fw-medium">Status <span class="text-danger">*</span></label>
+      <div ngbDropdown class="d-block" (openChange)="onDropdownOpen($event)">
+        <button type="button"
+          class="btn border  w-100 text-start dropdown-toggle"
+          id="status"
+          ngbDropdownToggle
+          [ngClass]="{'is-invalid': taskForm.get('status')?.invalid && (taskForm.get('status')?.touched || submitted)}"
+        >
+          <i [class]="statusOptions[taskForm.get('status')?.value].icon + ' me-2'"></i>
+          {{ statusOptions[taskForm.get('status')?.value].label || 'Select Status' }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="status">
+          @for (status of statusOptions | keyvalue; track status.key) {
+          <button type="button"
+            class="border-radius-0 btn dropdown-item"
+            (click)="taskForm.get('status')?.setValue(status.key); taskForm.get('status')?.markAsTouched()"
+          >
+            <i [class]="status.value.icon + ' me-2'"></i>
+            {{ status.value.label }}
+          </button>
+          }
+        </div>
+      </div>
+      @if (taskForm.get('status')?.invalid && (taskForm.get('status')?.touched || submitted)) {
+      <div class="invalid-feedback d-block">
+        @if (taskForm.get('status')?.errors?.['required']) {
+        <div>Status is required.</div>
+        }
+        @if (taskForm.get('status')?.errors?.['invalidStatus']) {
+        <div>Status must be one of: To Do, In Progress, Completed.</div>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="mb-4 position-relative">
+      <label for="dueDate" class="form-label fw-medium">Due Date</label>
+      <input
+        type="date"
+        id="dueDate"
+        class="form-control"
+        formControlName="dueDate"
+        [ngClass]="{'is-invalid': taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.touched || submitted)}"
+      />
+      @if (taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.touched || submitted)) {
+      <div class="invalid-feedback">
+        @if (taskForm.get('dueDate')?.errors?.['invalidDate']) {
+        <div>Invalid date format.</div>
+        }
+      </div>
+      }
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')" [disabled]="isLoading">Cancel</button>
+<button
+  type="button"
+  class="btn btn-primary gap-2 d-flex align-items-center w-fit-content"
+  (click)="onSubmit()"
+  [disabled]="taskForm.invalid || isLoading"
+>
+  @if (isLoading) {
+    <span class="spinner-border spinner-border-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </span>
+    {{ task ? 'Updating...' : 'Creating...' }}
+  } @else {
+    {{ task ? 'Update Task' : 'Create Task' }}
+  }
+</button>
+
+</div>

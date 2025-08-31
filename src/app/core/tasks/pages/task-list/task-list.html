@@ -1,0 +1,85 @@
+<div class="px-4 py-3 h-100 w-100 d-flex flex-column">
+  <div class="d-flex align-items-center flex-wrap header-bar mb-4 border-bottom pb-3 px-4 py-3 ">
+    <h3 class="title mb-0 fw-bold">Tasks</h3>
+
+    <div class="d-flex align-items-center gap-2 flex-1 ms-auto justify-content-end">
+      <div class="input-group search-group">
+        <span class="input-group-text bg-light border-0">
+          <i class="fa fa-search"></i>
+        </span>
+        <input type="search" class="form-control border-0 shadow-none p-1" placeholder="Search tasks..."
+          [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" />
+      </div>
+
+      <div ngbDropdown>
+        <button class="btn btn-light border dropdown-toggle fw-medium" ngbDropdownToggle>
+          <i [class]="selectedStatusIcon + ' me-1'"></i>
+          {{ selectedStatusLabel }}
+        </button>
+        <div ngbDropdownMenu>
+          @for (status of statusOptions | keyvalue; track status.key) {
+          <button class="btn border-radius-0 dropdown-item fw-medium" (click)="onStatusChange(status.key)">
+            <i [class]="status.value.icon + ' me-2'"></i>
+            {{ status.value.label }}
+          </button>
+          }
+        </div>
+      </div>
+
+      <button class="btn btn-primary px-3 fw-semibold" (click)="openAddTask()">
+        <i class="fa fa-plus me-1"></i> Add Task
+      </button>
+    </div>
+  </div>
+ <div class="flex-1 overflow-auto px-4 py-3 ">
+   @if (isLoading) {
+   <div class="row g-3">
+     @for (i of [1,2,3,4,5,6]; track i) {
+     <div class="col-12 col-sm-6 col-lg-4">
+       <div class="card card-shimmer"></div>
+     </div>
+     }
+   </div>
+   } @else {
+     @let tasks= filteredTasks$ | async;
+   <div class="row g-4">
+     @for (task of tasks; track task._id) {
+     <div class="col-12 col-sm-6 col-lg-4 cursor-pointer">
+       <div class="task-card" (click)="openTaskDetails(task)">
+         <div class="task-header d-flex justify-content-between align-items-center">
+           <h4 class="task-title">{{ task.title }}</h4>
+           <span class="status-badge" [ngClass]="'status-' + task.status">
+             {{ statusOptions[task.status].label }}
+           </span>
+         </div>
+
+         @if (task.description?.trim()) {
+         <div class="task-desc" [innerHTML]="task.description"></div>
+         }
+
+         <div class="task-footer d-flex justify-content-between align-items-center">
+           <small class="due">
+             <i class="fa fa-calendar-alt me-1"></i>
+             {{ task.dueDate ? (task.dueDate | date:'MMM d, y') : 'No Due Date' }}
+           </small>
+           <div class="task-actions">
+             <button class="btn-delete" (click)="openDeleteConfirmModal(task._id); $event.stopPropagation()">
+               <i class="fa fa-trash"></i>
+             </button>
+           </div>
+         </div>
+       </div>
+     </div>
+     }@empty {
+       <div class="empty-state text-center py-5">
+       <i class="fa fa-clipboard-list fa-3x mb-3 text-muted"></i>
+       <h5 class="fw-semibold">No Tasks Found</h5>
+       <p class="text-muted">Start by adding your first task.</p>
+     </div>
+     }
+   </div>
+   }
+ </div>
+
+
+</div>

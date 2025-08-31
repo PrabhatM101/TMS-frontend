@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h5 class="modal-title border-0">Confirm Delete</h5>
+  <div  class="btn-effect ms-auto" aria-label="Close" (click)="modal.dismiss('cancel')">
+    <i class="fa-solid fa-xmark"></i>
+  </div>
+</div>
+<div class="modal-body">
+  <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+</div>
+<div class="modal-footer border-0">
+  <button type="button" class="btn btn-secondary" (click)="modal?.dismiss('cancel')">Cancel</button>
+  <button type="button" class="btn btn-danger d-flex align-items-center w-fit-content gap-2" (click)="deleteItem.emit()">
+    @if (isDeleting) {
+      <span class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+      </span>
+    }
+  <span>
+    {{isDeleting?'Deleting':'Delete'}}
+  </span>
+  </button>
+</div>
