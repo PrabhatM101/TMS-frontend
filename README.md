@@ -1,17 +1,31 @@
-# TMSFrontend
+# 📋 TMSFrontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+Task Management System Frontend built with **Angular 20**.  
+This project provides a clean and responsive UI for managing tasks with features like creating, updating, deleting, and filtering tasks.
 
-## Development server
+---
 
-# Install dependencies
+## 🚀 Tech Stack
+- **Angular CLI** v20.2.1
+- **TypeScript**
+- **RxJS**
+- **Bootstrap / Custom CSS**
+- **Socket.IO Client** (for real-time updates with backend)
+- **REST API / WebSockets** (for backend communication)
+
+---
+
+## 📦 Installation
+
+Clone the repository:
+```bash
+git clone https://github.com/PrabhatM101/TMS-frontend
+cd TMSFrontend
+
+Install Dependencies:
+
 npm install
 
-To start a local development server, run:
+Run Project:
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
+npm start
